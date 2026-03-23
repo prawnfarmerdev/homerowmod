@@ -1,0 +1,24 @@
+[Unit]
+Description=KMonad keyboard remapper for Homerow Mods
+Documentation=https://github.com/kmonad/kmonad
+After=graphical-session.target
+Wants=graphical-session.target
+
+[Service]
+Type=simple
+
+# Wait for sway to fully initialize input devices
+ExecStartPre=/bin/sleep 3
+
+# Run kmonad with the homerow mod configuration
+ExecStart=/usr/sbin/kmonad /home/okra/projects/homerowmod/kmonad/linux.kbd
+Restart=on-failure
+RestartSec=5
+
+# Need access to input devices
+PrivateDevices=false
+# Allow kmonad to access /dev/input devices
+SupplementaryGroups=input
+
+[Install]
+WantedBy=default.target

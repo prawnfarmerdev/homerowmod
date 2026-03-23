@@ -1,0 +1,29 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Compiled files
+*.pyc
+__pycache__/
+
+# KMonad generated files
+*.kbd~
+
+# Personal files
+*.swp
+*.swo
+
+# Secrets
+.env
+.secret
+credentials.*

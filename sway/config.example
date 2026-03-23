@@ -1,0 +1,289 @@
+# Sway configuration
+# Read `man 5 sway` for a complete reference.
+
+### Wallpaper
+output * bg ~/files/wallpaper/wallhaven-jew5ly2.jpg fill
+
+input type:keyboard {
+}
+
+### Variables
+set $mod Mod4
+set $term kitty
+set $browser brave
+set $menu wofi --show drun
+set $emacs emacsclient -c -a ""
+
+
+# Colors matching i3 defaults
+set $bg #000000
+set $fg #c5c8c6
+set $fg_bright #ffffff
+set $border_normal #60676C
+set $border_unfocused #60676C
+set $border_focus #285577
+set $border_float #db8fd9
+set $urgent #cc6666
+
+### Output configuration
+# Configure your outputs here
+# Example: output HDMI-A-1 resolution 1920x1080 position 1920,0
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+### Input configuration
+# Touchpad configuration
+input type:touchpad {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+    tap_button_map lrm
+    click_method clickfinger
+}
+
+### Key bindings
+
+# Window focus navigation (vim-style)
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+h focus left
+bindsym $mod+l focus right
+bindsym $mod+o focus next
+bindsym $mod+Shift+o focus prev
+
+# Window movement
+bindsym $mod+Control+j move down
+bindsym $mod+Control+k move up
+bindsym $mod+Control+h move left
+bindsym $mod+Control+l move right
+
+# Window resizing
+bindsym $mod+Shift+h resize shrink width 50px
+bindsym $mod+Shift+l resize grow width 50px
+bindsym $mod+Shift+j resize grow height 50px
+bindsym $mod+Shift+k resize shrink height 50px
+
+# Layout controls
+bindsym $mod+Tab layout toggle split
+bindsym $mod+Shift+s layout stacking
+bindsym $mod+Shift+e layout toggle split
+bindsym $mod+Shift+w layout tabbed
+bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+f floating toggle
+bindsym $mod+Control+f maximize toggle
+
+# Sticky window toggle
+bindsym $mod+s sticky toggle
+
+# Custom window shuffle command
+bindsym $mod+space focus down, focus right, move up, move left
+
+# Window management
+bindsym $mod+q kill
+
+# Applications
+bindsym $mod+Return exec $emacs
+bindsym $mod+Shift+Return exec $term
+bindsym $mod+d exec $menu
+bindsym $mod+w exec $browser
+bindsym $mod+e exec $term -e yazi
+
+# Bar toggle
+bindsym $mod+b exec killall -SIGUSR1 waybar
+
+# Sway controls
+bindsym $mod+Shift+BackSpace exec loginctl kill-session $XDG_SESSION_ID
+bindsym $mod+Control+Shift+BackSpace exec swaymsg exit
+bindsym $mod+Shift+F5 reload
+
+
+
+# Monitor focus (multi-monitor)
+bindsym $mod+comma focus output left
+bindsym $mod+period focus output right
+
+# Scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+# ASUS Zephyrus G14 2022 Function Keys
+bindsym XF86AudioMute exec pamixer -t
+bindsym XF86AudioLowerVolume exec pamixer -d 5
+bindsym XF86AudioRaiseVolume exec pamixer -i 5
+bindsym XF86AudioMicMute exec pamixer --default-source -t
+bindsym Shift+XF86AudioLowerVolume exec pamixer --default-source -d 5
+bindsym Shift+XF86AudioRaiseVolume exec pamixer --default-source -i 5
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86Display exec arandr
+bindsym XF86WLAN exec nmcli radio wifi toggle
+bindsym XF86Search exec wofi --show drun
+bindsym XF86LaunchA exec rog-control-center
+bindsym XF86Explorer exec kitty -e yazi
+bindsym XF86TouchpadToggle exec ~/.config/scripts/touchpad_toggle_script.sh
+
+
+
+# ASUS ROG keys
+bindsym XF86Launch1 exec asusctl profile -n
+bindsym XF86Launch3 exec asusctl led-mode -n
+bindsym XF86Launch4 exec asusctl profile -n
+bindsym XF86KbdBrightnessDown exec asusctl -p
+bindsym XF86KbdBrightnessUp exec asusctl -n
+
+# Screenshots
+
+# Alt+Shift+S → select area, copy to clipboard
+bindsym Mod1+Shift+s exec grim -g "$(slurp)" - | wl-copy
+
+# Alt+Shift+W → click a window, screenshot entire window, copy to clipboard
+bindsym Mod1+Shift+w exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')" - | wl-copy
+
+### Workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+
+# Switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+
+# Move window to workspace and follow
+bindsym $mod+Shift+1 move container to workspace number $ws1; workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2; workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3; workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4; workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5; workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6; workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7; workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8; workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9; workspace number $ws9
+
+# Move window to workspace without following
+bindsym $mod+Control+1 move container to workspace number $ws1
+bindsym $mod+Control+2 move container to workspace number $ws2
+bindsym $mod+Control+3 move container to workspace number $ws3
+bindsym $mod+Control+4 move container to workspace number $ws4
+bindsym $mod+Control+5 move container to workspace number $ws5
+bindsym $mod+Control+6 move container to workspace number $ws6
+bindsym $mod+Control+7 move container to workspace number $ws7
+bindsym $mod+Control+8 move container to workspace number $ws8
+bindsym $mod+Control+9 move container to workspace number $ws9
+
+### Window Rules
+
+# Workspace 1: Terminal
+for_window [app_id="kitty"] move container to workspace $ws1, workspace $ws1
+for_window [class="kitty"] move container to workspace $ws1, workspace $ws1
+for_window [app_id="emacs"] move container to workspace $ws1, workspace $ws1
+for_window [class="emacs"] move container to workspace $ws1, workspace $ws1
+
+
+# Workspace 2: Browsers
+for_window [class="(?i)brave"] move container to workspace $ws2, workspace $ws2
+for_window [app_id="(?i)brave"] move container to workspace $ws2, workspace $ws2
+for_window [class="(?i)firefox"] move container to workspace $ws2, workspace $ws2
+for_window [app_id="(?i)firefox"] move container to workspace $ws2, workspace $ws2
+
+# Workspace 4: Games
+for_window [class="cs2"] move container to workspace $ws4, workspace $ws4
+for_window [class="^steam_app_.*"] move container to workspace $ws4, workspace $ws4
+
+# Workspace 5: Discord/Vesktop
+for_window [class="(?i)discord"] move container to workspace $ws5, workspace $ws5
+for_window [app_id="(?i)discord"] move container to workspace $ws5, workspace $ws5
+for_window [class="(?i)vesktop"] move container to workspace $ws5, workspace $ws5
+for_window [app_id="(?i)vesktop"] move container to workspace $ws5, workspace $ws5
+
+# Workspace 6: Steam, ProtonVPN, Heroic
+for_window [class="(?i)steam"] move container to workspace $ws6, workspace $ws6
+for_window [app_id="(?i)steam"] move container to workspace $ws6, workspace $ws6
+for_window [class="(?i)protonvpn"] move container to workspace $ws6, workspace $ws6
+for_window [app_id="(?i)protonvpn"] move container to workspace $ws6, workspace $ws6
+for_window [class="(?i)heroic"] move container to workspace $ws6, workspace $ws6
+for_window [app_id="(?i)heroic"] move container to workspace $ws6, workspace $ws6
+
+# Floating windows
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="utility"] floating enable
+for_window [window_type="toolbar"] floating enable
+for_window [window_type="splash"] floating enable
+for_window [class="Gimp"] floating enable
+for_window [app_id="confirmreset"] floating enable
+for_window [app_id="makebranch"] floating enable
+for_window [app_id="maketag"] floating enable
+for_window [app_id="ssh-askpass"] floating enable
+for_window [title="branchdialog"] floating enable
+for_window [title="pinentry"] floating enable
+
+
+
+### Mouse bindings
+floating_modifier $mod normal
+
+### Appearance
+
+# Window borders
+default_border normal 2
+default_floating_border normal 3
+titlebar_padding 2 4
+titlebar_border_thickness 0
+hide_edge_borders none
+
+
+# Window colors           border              background          text        indicator           child_border
+client.focused           $border_focus       $border_focus       $fg_bright  $border_focus       $border_focus
+client.focused_inactive  $border_normal      $border_normal      $fg         $border_normal      $border_normal
+client.unfocused         $border_unfocused      $border_unfocused      $fg         $border_unfocused      $border_unfocused
+client.urgent            $urgent             $urgent             $fg_bright  $urgent             $urgent
+client.placeholder       $border_unfocused      $bg                 $fg         $border_unfocused      $border_unfocused
+client.background        $bg
+
+# Floating window borders
+# for_window [floating] border normal 3 $border_float
+
+### Status Bar
+bar {
+    swaybar_command waybar
+}
+
+### Autostart
+# Create all workspaces on startup for persistent visibility
+exec swaymsg "workspace 1; workspace 2; workspace 3; workspace 4; workspace 5; workspace 6; workspace 1"
+
+
+# One-time execution: the script handles its own looping/waiting
+exec ~/.config/sway/scripts/power-manager.sh
+
+# PipeWire audio server (managed by systemd/user services)
+# exec pipewire
+# exec pipewire-pulse
+# exec wireplumber
+
+# System tray and notifications
+exec mako
+exec nm-applet
+
+
+
+### Behavior
+focus_follows_mouse yes
+focus_wrapping yes
+# Allows $mod+o/$mod+Shift+o to cycle through windows
+
+include /etc/sway/config.d/*
