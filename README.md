@@ -1,6 +1,10 @@
 # Homerow Mod
 
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue.svg)](https://github.com/prawnfarmerdev/homerowmod)
+
 KMonad configurations for Homerow Mods, tailored for Emacs practice.
+
+> **GitHub Repository**: https://github.com/prawnfarmerdev/homerowmod
 
 ## Quick Start
 
